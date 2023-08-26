@@ -1,6 +1,11 @@
 import fs from 'node:fs';
+import crypto from "crypto";
 import { DownloadItem } from './interfaces';
-export class Utils {
+
+
+export const uuidv4 = (): string => crypto.randomBytes(16).toString("hex");
+
+export class Helpers {
 
     /**
      * Formats the speed in bytes to a more readable format with units.
@@ -46,23 +51,22 @@ export class Utils {
     }
 
     /**
-     * Ensures that the keyvalues directory exists. If it does
-     * not exist, then it is created.
+     * Ensures that the keyvalues directory exists.
+     * If it does not exist, then it is created.
      *
      * @returns A promise which resolves when the keyvalues dir exists.
      * @internal
      */
-    private ensureDownloadDir(directory: string): Promise<void> {
+    private ensureDir(directory: string): Promise<void> {
         return new Promise((resolve, reject) => {
-            fs.stat(directory, (err) => {
-                if (err) {
-                    if (err.code === 'ENOENT') {
-                        fs.mkdir(directory, { recursive: true }, (error) => {
-                            error ? reject(error) : resolve();
+            fs.stat(directory, (error) => {
+                if (error) {
+                    if (error.code === 'ENOENT') {
+                        fs.mkdir(directory, { recursive: true }, (err) => {
+                            err ? reject(err) : resolve();
                         });
-                        // mkdirp(dirPath).then(() => resolve(), reject);
                     } else {
-                        reject(err);
+                        reject(error);
                     }
                 } else {
                     resolve();
@@ -71,13 +75,28 @@ export class Utils {
         });
     }
 
-    public async ensureFileTask(task: DownloadItem): Promise<DownloadItem> {
+    /**
+    * Ensures that a file with the given fileName exists.
+    *
+    * @param {string} fileName - The name of the file to ensure.
+    * @return {Promise<void>} - A promise that resolves when the file exists, or rejects with an error.
+    */
+    private async ensureFile(fileName: string): Promise<void> {
+        try {
+            await fs.promises.access(fileName, fs.promises.constants.F_OK);
+        } catch (error: any) {
+            throw error;
+        }
+    }
+
+    public async ensureDirFile(task: DownloadItem): Promise<DownloadItem> {
         const { fileName, directory } = task;
 
-        task.fileName = fileName || this.getFileName(task.url);
+        task.fileName = fileName || task.url.split('/').pop()?.split('?').shift(); ///this.getFileName(task.url);
         task.directory = directory || './downloads';
 
-        await this.ensureDownloadDir(task.directory);
+        //await this.ensureFile(task.fileName)
+        await this.ensureDir(task.directory);
 
         return task;
     }

@@ -1,13 +1,15 @@
 import {DownloadManager, DownloadItem } from '../src';
 import { images } from './images';
 
-const dm = new DownloadManager(2)
+const dm = new DownloadManager(2, true)
 
 // images.forEach(function (url: string) {
-//     dm.enqueueTask({ url } as DownloadItem);
+//     dm.enqueueItem({ url } as DownloadItem);
 // });
-dm.enqueueTask({ url: images[0], fileName: "image-0.jpg" } as DownloadItem)
-dm.enqueueTask({ url: 'https://github.com/heliomarpm/heliomarpm/raw/master/Setup_QRAuto.exe', fileName: "Install.exe" } as DownloadItem);
+// dm.enqueueItem({ url: images[0], fileName: "image-0.jpg" } as DownloadItem)
+dm.enqueueItem({ url: 'https://github.com/heliomarpm/heliomarpm/raw/master/Setup_QRAuto.exe'} as DownloadItem);
+dm.enqueueItem({ url: 'https://example.com/file1', directory: './downloads', fileName: 'file1.txt' });
+dm.enqueueItem({ url: 'https://url_invalidaa.com/', directory: './downloads' });
 
 console.log('>>> FILA: ', dm.queueCount());
 dm.start();

@@ -20,10 +20,14 @@
     "download",
     "stream"
   ],
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
     "start": "ts-node src/index.ts",
     "build": "tsc",
-    "test": "jest --detectOpenHandles"
+    "test": "jest",
+    "teste": "ts-node test/teste.ts"
   },
   "devDependencies": {
     "@types/async": "^3.2.20",
@@ -33,7 +37,9 @@
     "ts-node": "^10.9.1"
   },
   "dependencies": {
+    "@heliomarpm/kvs": "^1.0.4",
     "async": "^3.2.4",
-    "axios": "^1.4.0"
+    "axios": "^1.4.0",
+    "json-db-memory": "^1.0.3"
   }
 }
