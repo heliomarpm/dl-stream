@@ -3,7 +3,6 @@ import { EventEmitter } from 'events';
 import { Controller } from './Controller';
 import { DownloadItem, DownloadProgress } from './interfaces';
 import { DownloadStatus } from './types/DownloadStatus';
-import { FileHelper } from './utils';
 
 
 class DownloadManager extends EventEmitter {
