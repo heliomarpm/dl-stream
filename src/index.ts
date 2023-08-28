@@ -1,4 +1,6 @@
-import { DownloadManager } from "./download_manager";
+import DownloadManager from "./core";
 
-export * from './internal/interfaces'
-export { DownloadManager }
+export default DownloadManager
+
+export * from './core/interfaces'
+export * from './core/types'

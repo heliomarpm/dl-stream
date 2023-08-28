@@ -1,6 +1,6 @@
 {
   "name": "@heliomarpm/dl-stream",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Simple library for queuing downloads",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

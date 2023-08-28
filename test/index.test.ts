@@ -1,4 +1,4 @@
-import { DownloadItem, DownloadManager, DownloadStatus } from "../src/index";
+import DownloadManager, { DownloadItem, DownloadStatus } from "../src/index";
 import { images } from './images';
 
 describe('DownloadManager', () => {
@@ -32,7 +32,7 @@ describe('DownloadManager', () => {
         dm.pause();
 
         // Act! Call the resume method
-        dm.resume();
+        dm.start();
 
         // Assert! Check if the queue status is DOWNLOADING
         expect(dm.queueStatus()).toBe(DownloadStatus.DOWNLOADING);
@@ -192,7 +192,7 @@ describe('DownloadManager', () => {
         const queueResumeSpy = jest.spyOn(dm['queue'], 'resume');
 
         // When
-        dm.resume();
+        dm.start();
 
         // Then
         expect(queueResumeSpy).toHaveBeenCalled();
