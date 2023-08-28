@@ -18,5 +18,6 @@ export enum DownloadStatus {
     DOWNLOADING = "downloading",
     PAUSED = "paused",
     COMPLETED = "completed",
-    FAILED = "failed"
+    FAILED = "failed",
+    CANCELED = "canceled"
 }

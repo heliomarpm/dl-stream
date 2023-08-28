@@ -126,6 +126,7 @@ class DownloadManager extends EventEmitter {
     }
 
     cancel() {
+        this.status = DownloadStatus.CANCELED;
         this.queue.kill();
     }
 
@@ -137,7 +138,7 @@ class DownloadManager extends EventEmitter {
         this.emit('progress', progress);
     }
 
-    onProgressUpdate(callback: (progress: DownloadProgress) => void) {
+    onProgress(callback: (progress: DownloadProgress) => void) {
         this.on('progress', callback);
     }
 

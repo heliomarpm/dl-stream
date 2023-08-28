@@ -26,7 +26,7 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "build": "tsc",
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "teste": "ts-node test/teste.ts"
   },
   "devDependencies": {
