@@ -20,6 +20,9 @@
     "download",
     "stream"
   ],
+  "publishConfig": {
+    "heliomarpm:registry": "https://npm.pkg.github.com"
+  },
   "files": [
     "dist/**/*"
   ],
@@ -37,9 +40,7 @@
     "ts-node": "^10.9.1"
   },
   "dependencies": {
-    "@heliomarpm/kvs": "^1.0.4",
     "async": "^3.2.4",
-    "axios": "^1.4.0",
-    "json-db-memory": "^1.0.3"
+    "axios": "^1.4.0"
   }
 }
