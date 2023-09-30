@@ -51,22 +51,21 @@ class Controller extends EventEmitter {
         };
 
         const writerStream = createWriteStream(progress.fullDirectory);
-        let downloadedSize = 0;
 
         try {
-            const response: AxiosResponse<any> = await axios.get(item.url, { responseType: 'stream' });
-
-            const totalSize = parseInt(response.headers['content-length'] || "1", 10);
-            const startTime = Date.now();
-
+			const response: AxiosResponse<any> = await axios.get(item.url, { responseType: 'stream' });
             response.data.pipe(writerStream);
 
+			let downloadedBytes = 0;
+            const totalBytes = parseInt(response.headers['content-length'] || "1", 10);
+			const startTime = Date.now();
+
             response.data.on("data", (chunk: Buffer) => {
-                downloadedSize += chunk.length;
-                const elapsedTime = (Date.now() - startTime) / 1000;
-                const speed = downloadedSize / elapsedTime;
-                progress.speed = SpeedFormatter.formatUnit(speed);
-                progress.percentage = (downloadedSize / totalSize) * 100;
+                downloadedBytes += chunk.length;
+                const elapsedTime = Date.now() - startTime;
+                const bytesPerSecond = downloadedBytes / (elapsedTime/1000);
+                progress.speed = SpeedFormatter.formatUnit(bytesPerSecond);
+                progress.percentage = (downloadedBytes / totalBytes) * 100;
 
                 this.emitProgress(progress);
             });

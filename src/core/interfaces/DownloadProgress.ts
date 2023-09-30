@@ -5,4 +5,4 @@ interface DownloadProgress {
     speed: { value: number, unit: string };
 }
 
-export { DownloadProgress };
+export default DownloadProgress;

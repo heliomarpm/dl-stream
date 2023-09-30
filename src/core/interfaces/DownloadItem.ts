@@ -4,4 +4,4 @@ interface DownloadItem {
     fileName?: string;
 }
 
-export { DownloadItem };
+export default DownloadItem;

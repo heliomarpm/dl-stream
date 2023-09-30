@@ -7,4 +7,4 @@ enum DownloadStatus {
     CANCELED = "canceled"
 }
 
-export { DownloadStatus };
+export default DownloadStatus;

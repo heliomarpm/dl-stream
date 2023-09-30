@@ -2,7 +2,7 @@ import async from 'async';
 import { EventEmitter } from 'events';
 import { Controller } from './Controller';
 import { DownloadItem, DownloadProgress } from './interfaces';
-import { DownloadStatus } from './types/DownloadStatus';
+import { DownloadStatus } from './types';
 
 
 class DownloadManager extends EventEmitter {
@@ -109,4 +109,4 @@ class DownloadManager extends EventEmitter {
     }
 }
 
-export { DownloadManager };
+export default DownloadManager;

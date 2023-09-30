@@ -1,3 +1,3 @@
-import { DownloadStatus } from "./DownloadStatus";
+import DownloadStatus from "./DownloadStatus";
 
 export { DownloadStatus };
