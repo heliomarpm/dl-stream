@@ -1,13 +1,19 @@
+# name: Publish
+# on:
+#   release:
+#     types: [created]
 name: Publish
 on:
-  release:
-    types: [created]
+  push:
+    tags: ["*"]
+    paths:
+      - 'package.json'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version: 16
@@ -21,12 +27,13 @@ jobs:
       packages: write
       contents: read
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
       - run: npm ci
+			- run: npm run build
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
