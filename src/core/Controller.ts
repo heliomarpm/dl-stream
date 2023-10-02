@@ -4,16 +4,17 @@ import { DownloadItem, DownloadProgress } from './interfaces';
 import { FileHelper, SpeedFormatter } from './utils';
 import { EventEmitter } from 'events';
 
-class Controller extends EventEmitter {
+class Controller {
+	private events: EventEmitter;
     private _displayLog: boolean;
 
     constructor(displayLog: boolean = false) {
-        super();
-        this._displayLog = displayLog;
-    }
+		this._displayLog = displayLog;
+        this.events = new EventEmitter();
+	}
 
     private emitProgress(progress: DownloadProgress) {
-        this.emit('progress', progress);
+        this.events.emit('progress', progress);
     }
 
     private consoleLog(message?: any, logError: boolean = false, ...optionalParams: any[]) {
@@ -82,8 +83,8 @@ class Controller extends EventEmitter {
     }
 
     onProgress(callback: (progress: DownloadProgress) => void) {
-        this.on('progress', callback);
-    }
+        this.events.on('progress', callback);
+	}
 }
 
 export { Controller };

@@ -30,7 +30,7 @@
     "start": "ts-node src/index.ts",
     "build": "tsc",
     "test": "jest --detectOpenHandles",
-    "teste": "ts-node test/teste.ts"
+    "exemple": "ts-node test/exemple.ts"
   },
   "devDependencies": {
     "@types/async": "^3.2.20",

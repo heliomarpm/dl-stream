@@ -5,19 +5,23 @@ import { DownloadItem, DownloadProgress } from './interfaces';
 import { DownloadStatus } from './types';
 
 
-class DownloadManager extends EventEmitter {
+class DownloadManager {
+	private events: EventEmitter;
     private queue!: async.QueueObject<DownloadItem>;
     private controller!: Controller;
     private status: DownloadStatus = DownloadStatus.QUEUED;
     private _displayLog;
 
-    constructor(concurrency: number = 1, displayLog: boolean = false) {
-        super();
-
-        this._displayLog = displayLog;
+	constructor(concurrency: number = 1, displayLog: boolean = false) {
+		this._displayLog = displayLog;
+		this.events = new EventEmitter();
         this.initializeController(displayLog);
         this.initializeQueue(concurrency);
-    }
+	}
+
+	private emit(event: string, ...args: any[]) {
+		this.events.emit(event, ...args);
+	}
 
     private initializeController(displayLog: boolean) {
         this.controller = new Controller(displayLog);
@@ -97,15 +101,15 @@ class DownloadManager extends EventEmitter {
     }
 
     onProgress(callback: (progress: DownloadProgress) => void) {
-        this.on('progress', callback);
+        this.events.on('progress', callback);
     }
 
     onError(callback: (error: Error, item: DownloadItem) => void) {
-        this.on('error', callback);
+        this.events.on('error', callback);
     }
 
     onComplete(callback: () => void) {
-        this.on('complete', callback);
+        this.events.on('complete', callback);
     }
 }
 

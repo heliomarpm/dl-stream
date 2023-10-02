@@ -1,3 +1,3 @@
-import { DownloadManager } from "./DownloadManager";
+import DownloadManager  from "./DownloadManager";
 
 export default DownloadManager;

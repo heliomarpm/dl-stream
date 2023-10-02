@@ -1,4 +1,4 @@
-import { DownloadItem } from "./DownloadItem";
-import { DownloadProgress } from "./DownloadProgress";
+import DownloadItem from "./DownloadItem";
+import DownloadProgress from "./DownloadProgress";
 
-export { DownloadItem, DownloadProgress }
+export { DownloadItem, DownloadProgress };
