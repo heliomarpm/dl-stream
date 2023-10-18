@@ -1,7 +1,3 @@
-# name: Publish
-# on:
-#   release:
-#     types: [created]
 name: Publish
 on:
   push:
@@ -10,31 +6,34 @@ on:
       - 'package.json'
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - run: npm ci
-      - run: npm test
-
-  publish-gpr:
-    needs: test
+  publish:
     runs-on: ubuntu-latest
     permissions:
       packages: write
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - name: Publish NPM
+        uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: '>=16.8.0'
+          registry-url: 'https://registry.npmjs.org'
+      - run: |
+          npm ci
+          npm test
+      - run: npm publish --access=public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+
+      - name: Publish GH Package
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '>=16.8.0'
           registry-url: https://npm.pkg.github.com/
           scope: "@heliomarpm"
       - run: npm ci
-      - run: npm run build
-      - run: npm publish
+      - run: npm publish --access=public
         env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -30,7 +30,8 @@ function enqueueImages() {
 
 function start() {
     try {
-        // dm.enqueueItem({ url: 'https://github.com/heliomarpm/heliomarpm/raw/master/Setup_QRAuto.exe'} as DownloadItem);
+		enqueueImages();
+        dm.enqueueItem({ url: 'https://github.com/heliomarpm/heliomarpm/raw/master/Setup_QRAuto.exe'} as DownloadItem);
         dm.enqueueItem({ url: 'https://example.com/file1', directory: './downloads', fileName: 'file1.txt' });
         dm.enqueueItem({ url: 'https://url_invalidaa.com/', directory: './downloads' });
 
@@ -54,6 +55,3 @@ function start() {
 }
 
 start();
-
-// enqueueImages();
-// dm.start();

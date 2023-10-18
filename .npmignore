@@ -1,6 +1,9 @@
-# src
-test
+.github
+src
+result_test
 tsconfig.json
 cmd
-licence
 docs
+jest.config.js
+.editorconfig
+.prettierrc
