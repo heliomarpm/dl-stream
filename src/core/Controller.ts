@@ -1,20 +1,20 @@
 import { createWriteStream } from 'fs';
 import axios, { AxiosResponse } from 'axios';
 import { DownloadItem, DownloadProgress } from './interfaces';
-import { FileHelper, SpeedFormatter } from './utils';
+import { ConsoleLog, FileHelper, SpeedFormatter } from './utils';
 import { EventEmitter } from 'events';
 
 
 class Controller {
     private events: EventEmitter;
-    private _displayLog: boolean;
+	private consoleLog: ConsoleLog;
 
     /**
      * Initializes the `Controller` instance with an optional flag to enable logging.
      * @param displayLog Flag indicating whether to display log messages. Default is false.
      */
     constructor(displayLog: boolean = false) {
-        this._displayLog = displayLog;
+		this.consoleLog = new ConsoleLog(displayLog);
         this.events = new EventEmitter();
     }
 
@@ -24,22 +24,6 @@ class Controller {
      */
     private emitProgress(progress: DownloadProgress) {
         this.events.emit('progress', progress);
-    }
-
-    /**
-     * Logs the message to the console if logging is enabled.
-     * @param message The message to log.
-     * @param logError Flag indicating whether the message is an error message.
-     * @param optionalParams Optional parameters to log.
-     */
-    private consoleLog(message?: any, logError: boolean = false, ...optionalParams: any[]) {
-        if (!this._displayLog) return;
-
-        if (logError) {
-            console.error(message, optionalParams);
-        } else {
-            console.log(message, optionalParams);
-        }
     }
 
     /**
@@ -99,7 +83,7 @@ class Controller {
             });
 
             response.data.on("end", () => {
-                this.consoleLog(`Download of ${item.fileName} completed`);
+                this.consoleLog.show(`Download of ${item.fileName} completed`);
                 writerStream.end();
             });
 

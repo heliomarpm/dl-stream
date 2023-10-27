@@ -1,5 +1,7 @@
 class SpeedFormatter {
+	// constant variable for bytes per kilobyte
     private static readonly BYTES_PER_KILOBYTE = 1024;
+	// list of units
     private static readonly UNITS = ["B/s", "KB/s", "MB/s", "GB/s"];
 
     /**

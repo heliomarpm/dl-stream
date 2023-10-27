@@ -3,22 +3,22 @@ import { EventEmitter } from 'events';
 import { Controller } from './Controller';
 import { DownloadItem, DownloadProgress } from './interfaces';
 import { DownloadStatus } from './types';
+import { ConsoleLog } from './utils';
 
 
 class DownloadManager {
 	private events: EventEmitter;
     private queue!: async.QueueObject<DownloadItem>;
     private status: DownloadStatus = DownloadStatus.QUEUED;
+	private consoleLog: ConsoleLog;
     private displayLog: boolean;
 
 	constructor(concurrency: number = 1, displayLog: boolean = false) {
 		this.displayLog = displayLog;
+		this.consoleLog = new ConsoleLog(displayLog);
+
 		this.events = new EventEmitter();
         this.initializeQueue(concurrency);
-	}
-
-	private emit(event: string, ...args: any[]) {
-		this.events.emit(event, ...args);
 	}
 
     private initializeQueue(concurrency: number) {
@@ -30,44 +30,33 @@ class DownloadManager {
         this.queue.error(this.handleQueueError.bind(this));
     }
 
-    private async handleDownload(item: DownloadItem, callback: (error?: any | null, item?: DownloadItem) => void) {
+    private async handleDownload(item: DownloadItem, callback: (error?: unknown | null, item?: DownloadItem) => void) {
         this.status = DownloadStatus.DOWNLOADING;
 
 		try {
 			const controller = new Controller(this.displayLog);
 			controller.onProgress((progress: DownloadProgress) => {
-			  this.emit('progress', progress);
+			  this.events.emit('progress', progress);
 			});
 			await controller.downloadFile(item);
 
             callback();
-        } catch (error: any) {
+        } catch (error: unknown) {
             callback(error, item);
         }
     }
 
     private handleQueueError(error: Error, item: DownloadItem) {
-        this.consoleLog(`Error downloading ${item.fileName}:`, true, error.message);
+        this.consoleLog.show(`Error downloading ${item.fileName}:`, true, error.message);
         this.status = DownloadStatus.FAILED;
-        this.emit('error', error, item);
+        this.events.emit('error', error, item);
     }
 
     private handleQueueDrain() {
-        this.consoleLog(">>> All downloads completed! <<<")
+        this.consoleLog.show(">>> All downloads completed! <<<")
         this.status = DownloadStatus.COMPLETED;
-        this.emit('complete');
+        this.events.emit('complete');
     }
-
-    private consoleLog(message?: any, logError: boolean = false, ...optionalParams: any[]) {
-        if (!this.displayLog) return;
-
-        if (logError) {
-            console.error(message, optionalParams);
-        } else {
-            console.log(message, optionalParams);
-        }
-    }
-
     start() {
         this.status = DownloadStatus.DOWNLOADING;
         this.queue.resume();
@@ -86,7 +75,6 @@ class DownloadManager {
     enqueueItem(item: DownloadItem) {
         this.queue.push(item);
     }
-
 
     queueCount() {
         return this.queue.length();

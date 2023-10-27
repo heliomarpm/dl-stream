@@ -28,14 +28,16 @@
   ],
   "scripts": {
     "start": "ts-node src/index.ts",
-		"prebuild": "rimraf dist",
+    "prebuild": "rimraf dist",
     "build:dev": "tsc -p tsconfig.json",
     "build": "tsc -p tsconfig.prod.json",
     "test": "jest --coverage --detectOpenHandles",
     "test:ex": "ts-node test/example.ts",
-    "release": "node ./cmd/modules/release/index.js"
+    "release": "node ./cmd/modules/release/index.js",
+    "compodoc": "rimraf documentation && npx compodoc -p tsconfig.doc.json --disableCoverage"
   },
   "devDependencies": {
+    "@compodoc/compodoc": "^1.1.22",
     "@types/async": "^3.2.20",
     "@types/jest": "^29.5.3",
     "jest": "^29.6.2",
