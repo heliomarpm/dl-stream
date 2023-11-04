@@ -12,30 +12,49 @@ jobs:
       packages: write
       contents: read
     steps:
-      - name: Publish NPM
+      - name: Checkout
         uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+
+
+      # PUBLICANDO EM NPMJS
+      - name: Setup Node NPM
+        uses: actions/setup-node@v3
         with:
           node-version: '>=16.8.0'
-          registry-url: 'https://registry.npmjs.org'
-      - run: |
-          npm ci
-          npm test
-          npm run build
-      - run: npm publish --access=public
+          registry-url: https://registry.npmjs.org/
+          scope: "@heliomarpm"
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish NPM Package
+        run: npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 
-      - name: Publish GPR Package
+      # PUBLICANDO EM GITHUB PACKAGE
+      - name: Setup Node GPR
         uses: actions/setup-node@v3
         with:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
           scope: "@heliomarpm"
-      - run: |
-          npm ci
-          npm run build
-      - run: npm publish
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish GPR
+        run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
