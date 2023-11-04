@@ -1,6 +1,6 @@
 {
   "name": "@heliomarpm/dl-stream",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Simple library for queuing downloads",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -31,7 +31,8 @@
     "prebuild": "rimraf dist",
     "build:dev": "tsc -p tsconfig.json",
     "build": "tsc -p tsconfig.prod.json",
-    "test": "jest --coverage --detectOpenHandles",
+    "test": "jest --detectOpenHandles",
+    "test:c": "jest --coverage --detectOpenHandles",
     "test:ex": "ts-node test/example.ts",
     "release": "node ./cmd/modules/release/index.js",
     "compodoc": "rimraf documentation && npx compodoc -p tsconfig.doc.json --disableCoverage"
