@@ -153,7 +153,7 @@ If you appreciate that, please consider donating to the Developer.
 ----
 [url-npm-badge]: https://img.shields.io/npm/v/@heliomarpm/dl-stream.svg
 [url-npm]: https://www.npmjs.com/package/@heliomarpm/dl-stream
-[url-downloads-badge]: https://img.shields.io/npm/dm/@heliomarpm/dl-stream.svg
+[url-downloads-badge]: https://img.shields.io/npm/dy/@heliomarpm/dl-stream.svg
 [url-downloads]: http://badge.fury.io/js/@heliomarpm/dl-stream.svg
 [url-deepscan-badge]: https://deepscan.io/api/teams/19612/projects/25345/branches/791228/badge/grade.svg
 [url-deepscan]: https://deepscan.io/dashboard#view=project&tid=19612&pid=25345&bid=791228
